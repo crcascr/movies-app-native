@@ -29,7 +29,7 @@ function SearchBar({ darkMode }) {
       fontWeight: "bold",
       fontSize: 30,
       color: darkMode ? "white" : "black",
-      marginLeft: 10,
+      marginLeft: 20,
     },
   });
 
@@ -50,7 +50,7 @@ function SearchBar({ darkMode }) {
           color={darkMode ? "white" : "black"}
         />
         <Text style={styles.logoName}>
-          <Text style={{ color: "#eab308" }}>P</Text>elículas
+          <Text style={{ color: "#eab308" }}>M</Text>ovies
         </Text>
         <TouchableOpacity>
           <MagnifyingGlassIcon

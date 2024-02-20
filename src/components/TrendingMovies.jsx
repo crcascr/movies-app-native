@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 import TrendingMovieCard from "./TrendingMovieCard";
+import { useNavigation } from "@react-navigation/native";
 
 function TrendingMovies({ darkMode, trendingMovies, width, height }) {
   const styles = StyleSheet.create({
@@ -18,6 +19,11 @@ function TrendingMovies({ darkMode, trendingMovies, width, height }) {
     },
   });
 
+  const navigation = useNavigation();
+  const handleMoviePress = (movie, darkMode) => {
+    navigation.navigate("Movie", { movie: movie, darkMode: darkMode });
+  };
+
   return (
     <View style={styles.trendingContainer}>
       <Text style={styles.trendingTitle}>Trending</Text>
@@ -29,6 +35,7 @@ function TrendingMovies({ darkMode, trendingMovies, width, height }) {
             height={height}
             darkMode={darkMode}
             movie={item}
+            handleMoviePress={handleMoviePress}
           />
         )}
         firstItem={1}

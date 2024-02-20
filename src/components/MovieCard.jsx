@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 function MovieCard({ darkMode, Movie, index, width, height }) {
   const styles = StyleSheet.create({
@@ -24,8 +25,15 @@ function MovieCard({ darkMode, Movie, index, width, height }) {
     },
   });
 
+  const navigation = useNavigation();
+
   return (
-    <TouchableWithoutFeedback key={index}>
+    <TouchableWithoutFeedback
+      key={index}
+      onPress={() =>
+        navigation.push("Movie", { movie: Movie, darkMode: darkMode })
+      }
+    >
       <View style={styles.movieCard}>
         <Image
           source={require("../assets/images/InsideOut2.jpg")}

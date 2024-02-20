@@ -9,7 +9,7 @@ import {
 
 import MovieCard from "./MovieCard";
 
-function Movies({ darkMode, Movies, width, height,title }) {
+function Movies({ darkMode, Movies, width, height, title, seeAllMovies }) {
   const styles = StyleSheet.create({
     sectionContainer: {
       marginBottom: 8,
@@ -37,16 +37,18 @@ function Movies({ darkMode, Movies, width, height,title }) {
     <View style={styles.sectionContainer}>
       <View style={styles.titleContainer}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        <TouchableOpacity>
-          <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity>
+        {seeAllMovies && (
+          <TouchableOpacity>
+            <Text style={styles.seeAllText}>See All</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 15 }}
       >
-        {Movies.map((Movie,index)=>{
+        {Movies.map((Movie, index) => {
           return (
             <MovieCard
               key={index}
