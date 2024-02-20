@@ -15,7 +15,7 @@ import {
   SunIcon,
 } from "react-native-heroicons/outline";
 
-function SearchBar({ darkMode }) {
+function SearchBar({ darkMode, setDarkMode }) {
   const ios = Platform.OS === "ios";
   const styles = StyleSheet.create({
     searchContainer: {
@@ -60,7 +60,10 @@ function SearchBar({ darkMode }) {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ marginLeft: 4 }}>
+      <TouchableOpacity
+        style={{ marginLeft: 4 }}
+        onPress={() => setDarkMode(!darkMode)}
+      >
         {darkMode ? (
           <SunIcon size={30} strokeWidth={2} color={"white"} />
         ) : (

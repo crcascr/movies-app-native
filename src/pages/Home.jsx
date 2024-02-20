@@ -18,7 +18,7 @@ function Home() {
   return (
     <View style={styles.homeContainer}>
       {/*SearchBar and Logo Section start />*/}
-      <SearchBar darkMode={darkMode} />
+      <SearchBar darkMode={darkMode} setDarkMode={setDarkMode} />
       {/*SearchBar and Logo Section end />*/}
 
       {/*Movies Section start />*/}
