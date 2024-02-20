@@ -20,6 +20,7 @@ function Home() {
       {/*SearchBar and Logo Section start />*/}
       <SearchBar darkMode={darkMode} />
       {/*SearchBar and Logo Section end />*/}
+
       {/*Movies Section start />*/}
       <MoviesSection darkMode={darkMode} />
       {/*Movies Section end />*/}

@@ -1,12 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
-import MovieCard from "./MovieCard";
+import TrendingMovieCard from "./TrendingMovieCard";
 
-var { width, height } = Dimensions.get("window");
-
-function TrendingMovies({ darkMode, trendingMovies }) {
+function TrendingMovies({ darkMode, trendingMovies, width, height }) {
   const styles = StyleSheet.create({
     trendingContainer: {
       marginBottom: 8,
@@ -26,7 +24,7 @@ function TrendingMovies({ darkMode, trendingMovies }) {
       <Carousel
         data={trendingMovies}
         renderItem={({ item }) => (
-          <MovieCard
+          <TrendingMovieCard
             width={width}
             height={height}
             darkMode={darkMode}
@@ -36,7 +34,7 @@ function TrendingMovies({ darkMode, trendingMovies }) {
         firstItem={1}
         inactiveSlideOpacity={0.6}
         sliderWidth={width}
-        itemWidth={width*0.62}
+        itemWidth={width * 0.62}
         slideStyle={{ display: "flex", alignItems: "center" }}
       />
     </View>
