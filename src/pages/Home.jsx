@@ -1,12 +1,20 @@
-import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 
 import SearchBar from "../components/SearchBar";
 import MoviesSection from "../components/MoviesSection";
 
 function Home() {
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const date = new Date();
+    const currentHour = date.getHours();
+
+    if (currentHour >= 18 || currentHour < 6) {
+      setDarkMode(true);
+    }
+  }, []);
 
   const styles = StyleSheet.create({
     homeContainer: {
