@@ -14,9 +14,13 @@ import {
   MoonIcon,
   SunIcon,
 } from "react-native-heroicons/outline";
+import { useNavigation } from "@react-navigation/native";
 
 function SearchBar({ darkMode, setDarkMode }) {
   const ios = Platform.OS === "ios";
+
+  const navigation = useNavigation();
+
   const styles = StyleSheet.create({
     searchContainer: {
       flexDirection: "row",
@@ -52,7 +56,7 @@ function SearchBar({ darkMode, setDarkMode }) {
         <Text style={styles.logoName}>
           <Text style={{ color: "#eab308" }}>M</Text>ovies
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Search", { darkMode: darkMode })}>
           <MagnifyingGlassIcon
             size={30}
             strokeWidth={2}
