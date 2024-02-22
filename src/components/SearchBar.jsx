@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import {
-  Bars3CenterLeftIcon,
   MagnifyingGlassIcon,
   MoonIcon,
   SunIcon,
@@ -33,7 +32,7 @@ function SearchBar({ darkMode, setDarkMode }) {
       fontWeight: "bold",
       fontSize: 30,
       color: darkMode ? "white" : "black",
-      marginLeft: 20,
+      marginLeft: 130,
     },
   });
 
@@ -47,12 +46,7 @@ function SearchBar({ darkMode, setDarkMode }) {
       }}
     >
       <StatusBar style={darkMode ? "light" : "dark"} />
-      <View style={styles.searchContainer}>
-        <Bars3CenterLeftIcon
-          size={30}
-          strokeWidth={2}
-          color={darkMode ? "white" : "black"}
-        />
+      <View style={styles.searchContainer}>        
         <Text style={styles.logoName}>
           <Text style={{ color: "#eab308" }}>M</Text>ovies
         </Text>
