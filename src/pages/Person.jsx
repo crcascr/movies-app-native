@@ -148,7 +148,7 @@ function Person() {
   let genderLabel;
   var genderValue = personDetails?.gender;
   if (genderValue === 0) {
-    genderLabel = "Not set / not specified";
+    genderLabel = "Not set";
   } else if (genderValue === 1) {
     genderLabel = "Female";
   } else if (genderValue === 2) {
