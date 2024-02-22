@@ -239,12 +239,14 @@ function Person() {
                 noBorder={true}
               />
             </View>
-            <View style={styles.biographyContainer}>
-              <Text style={styles.biographyTitle}>Biography</Text>
-              <Text style={styles.biographyText}>
-                {personDetails.biography}
-              </Text>
-            </View>
+            {personDetails.biography.length > 0 && (
+              <View style={styles.biographyContainer}>
+                <Text style={styles.biographyTitle}>Biography</Text>
+                <Text style={styles.biographyText}>
+                  {personDetails.biography}
+                </Text>
+              </View>
+            )}
           </View>
         )
       )}
