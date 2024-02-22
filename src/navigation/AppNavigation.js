@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Movie from "../pages/Movie";
 import Person from "../pages/Person";
 import Search from "../pages/Search";
+import AllMovies from "../pages/AllMovies";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,11 @@ function AppNavigation() {
           name="Search"
           options={{ headerShown: false }}
           component={Search}
+        />
+        <Stack.Screen
+          name="AllMovies"
+          options={{ headerShown: false }}
+          component={AllMovies}
         />
       </Stack.Navigator>
     </NavigationContainer>

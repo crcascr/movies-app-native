@@ -59,7 +59,6 @@ function Person() {
 
   async function getPersonMovies(personId) {
     const data = await fetchPersonMovies(personId);
-    console.log(data);
     if (data && data.cast) {
       setPersonMovies(data.cast);
     }

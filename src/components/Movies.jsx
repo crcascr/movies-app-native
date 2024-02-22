@@ -8,8 +8,11 @@ import {
 } from "react-native";
 
 import MovieCard from "./MovieCard";
+import { useNavigation } from "@react-navigation/native";
 
 function Movies({ darkMode, Movies, width, height, title, seeAllMovies }) {
+  const navigation = useNavigation();
+
   const styles = StyleSheet.create({
     sectionContainer: {
       marginBottom: 8,
@@ -38,7 +41,15 @@ function Movies({ darkMode, Movies, width, height, title, seeAllMovies }) {
       <View style={styles.titleContainer}>
         <Text style={styles.sectionTitle}>{title}</Text>
         {seeAllMovies && (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("AllMovies", {
+                movies: Movies,
+                darkMode: darkMode,
+                title: title,
+              })
+            }
+          >
             <Text style={styles.seeAllText}>See All</Text>
           </TouchableOpacity>
         )}
