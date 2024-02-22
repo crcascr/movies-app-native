@@ -27,6 +27,8 @@ function Movie() {
   const { movie } = params;
   const { darkMode } = params;
 
+  console.log("Movie data", movie);
+
   const navigation = useNavigation();
 
   const [favorite, setFavorite] = useState(false);
@@ -46,9 +48,9 @@ function Movie() {
   ]);
 
   const [similarMovies, setSimilarMovies] = useState([
-    { number: 1, name: "The Transporter" },
-    { number: 2, name: "John Wick" },
-    { number: 3, name: "V For Vendetta" },
+    { number: 1, title: "The Transporter" },
+    { number: 2, title: "John Wick" },
+    { number: 3, title: "V For Vendetta" },
   ]);
 
   useEffect(() => {
@@ -173,18 +175,16 @@ function Movie() {
       </View>
       <View style={styles.movieInfoContainer}>
         <View style={styles.movieDetailsContainer}>
-          <Text style={styles.movieTitle}>{movie.name}</Text>
-          <Text style={styles.movieGeneralInfo}>Released • 2024 • 105 min</Text>
+          <Text style={styles.movieTitle}>{movie.title}</Text>
+          <Text style={styles.movieGeneralInfo}>
+            Released • {movie.release_date.split("-")[0]} • 105 min
+          </Text>
           <View style={styles.movieGenres}>
             <Text style={styles.movieGeneralInfo}>Action • </Text>
             <Text style={styles.movieGeneralInfo}>Suspense • </Text>
             <Text style={styles.movieGeneralInfo}>Drama</Text>
           </View>
-          <Text style={styles.movieDescription}>
-            One man’s campaign for vengeance takes on national stakes after he
-            is revealed to be a former operative of a powerful and clandestine
-            organization known as Beekeepers.
-          </Text>
+          <Text style={styles.movieDescription}>{movie.overview}</Text>
         </View>
         <Cast darkMode={darkMode} cast={cast} navigation={navigation} />
         <Movies

@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { getMoviePoster185 } from "../api/MovieDB";
+import { fallbackMoviePoster, getMoviePoster185 } from "../api/MovieDB";
 
 function MovieCard({ darkMode, Movie, index, width, height }) {
   const styles = StyleSheet.create({
@@ -38,7 +38,9 @@ function MovieCard({ darkMode, Movie, index, width, height }) {
       <View style={styles.movieCard}>
         <Image
           //source={require("../assets/images/InsideOut2.jpg")}
-          source={{uri:getMoviePoster185(Movie.poster_path)}}
+          source={{
+            uri: getMoviePoster185(Movie.poster_path) || fallbackMoviePoster,
+          }}
           style={styles.movieImage}
         />
         <Text style={styles.movieTitle}>
