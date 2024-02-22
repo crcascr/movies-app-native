@@ -41,7 +41,7 @@ function CastCard({ darkMode, person, navigation }) {
     <TouchableOpacity
       style={styles.castContainer}
       onPress={() =>
-        navigation.push("Person", { person: person.name, darkMode: darkMode })
+        navigation.push("Person", { personId: person.id, darkMode: darkMode })
       }
     >
       <View style={styles.imageContainer}>

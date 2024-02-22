@@ -41,11 +41,7 @@ function Movie() {
 
   const [cast, setCast] = useState(null);
 
-  const [similarMovies, setSimilarMovies] = useState([
-    { number: 1, title: "The Transporter" },
-    { number: 2, title: "John Wick" },
-    { number: 3, title: "V For Vendetta" },
-  ]);
+  const [similarMovies, setSimilarMovies] = useState(null);
 
   const [movieDetails, setMovieDetails] = useState(null);
 

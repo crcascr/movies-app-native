@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Platform,
@@ -18,13 +18,18 @@ import { Shadow } from "react-native-shadow-2";
 import PersonDetailedInfo from "../components/PersonDetailedInfo";
 import Movies from "../components/Movies";
 import Loading from "../components/Loading";
+import {
+  fetchPersonDetails,
+  fetchPersonMovies,
+  getMoviePoster342,
+} from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS === "ios";
 
 function Person() {
   const { params } = useRoute();
-  const { person } = params;
+  const { personId } = params;
   const { darkMode } = params;
 
   const navigation = useNavigation();
@@ -33,13 +38,32 @@ function Person() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [personMovies, setPersonMovies] = useState([
-    { number: 1, name: "The Transporter" },
-    { number: 2, name: "Death Race" },
-    { number: 3, name: "The Expendables" },
-    { number: 4, name: "Crank" },
-    { number: 5, name: "The Meg" },
-  ]);
+  const [personDetails, setPersonDetails] = useState(null);
+
+  const [personMovies, setPersonMovies] = useState(null);
+
+  useEffect(() => {
+    setIsLoading(true);
+    //Call to the API
+    getPersonDetails(personId);
+    getPersonMovies(personId);
+  }, [personId]);
+
+  async function getPersonDetails(personId) {
+    const data = await fetchPersonDetails(personId);
+    if (data) {
+      setPersonDetails(data);
+      setIsLoading(false);
+    }
+  }
+
+  async function getPersonMovies(personId) {
+    const data = await fetchPersonMovies(personId);
+    console.log(data);
+    if (data && data.cast) {
+      setPersonMovies(data.cast);
+    }
+  }
 
   const styles = StyleSheet.create({
     personContainer: {
@@ -122,6 +146,20 @@ function Person() {
     },
   });
 
+  let genderLabel;
+  var genderValue = personDetails?.gender;
+  if (genderValue === 0) {
+    genderLabel = "Not set / not specified";
+  } else if (genderValue === 1) {
+    genderLabel = "Female";
+  } else if (genderValue === 2) {
+    genderLabel = "Male";
+  } else if (genderValue === 3) {
+    genderLabel = "Non-binary";
+  } else {
+    genderLabel = "Unknown";
+  }
+
   return (
     <ScrollView
       style={styles.personContainer}
@@ -153,72 +191,81 @@ function Person() {
       {isLoading ? (
         <Loading />
       ) : (
-        <View>
-          <View style={styles.personBasicContainer}>
-            <Shadow
-              distance={20}
-              startColor={"#737373"}
-              endColor={"#73737300"}
-              offset={[0, 0]}
-            >
-              <View style={styles.personImageContainer}>
-                <Image
-                  source={require("../assets/images/Jason-Statham.jpg")}
-                  style={styles.personImage}
-                />
-              </View>
-            </Shadow>
-          </View>
+        personDetails && (
           <View>
-            <Text style={styles.personName}>{person}</Text>
-            <Text style={styles.personLocation}>London, UK</Text>
+            <View style={styles.personBasicContainer}>
+              <Shadow
+                distance={20}
+                startColor={"#737373"}
+                endColor={"#73737300"}
+                offset={[0, 0]}
+              >
+                <View style={styles.personImageContainer}>
+                  <Image
+                    //source={require("../assets/images/Jason-Statham.jpg")}
+                    source={{
+                      uri: getMoviePoster342(personDetails.profile_path),
+                    }}
+                    style={styles.personImage}
+                  />
+                </View>
+              </Shadow>
+            </View>
+            <View>
+              <Text style={styles.personName}>{personDetails.name}</Text>
+              <Text style={styles.personLocation}>
+                {personDetails.place_of_birth}
+              </Text>
+            </View>
+            <View style={styles.personDetailedInfoContainer}>
+              <PersonDetailedInfo
+                title="Gender"
+                data={genderLabel}
+                darkMode={darkMode}
+              />
+              <PersonDetailedInfo
+                title="Birthday"
+                data={personDetails.birthday}
+                darkMode={darkMode}
+              />
+              <PersonDetailedInfo
+                title="Know For"
+                data={personDetails.known_for_department}
+                darkMode={darkMode}
+              />
+              <PersonDetailedInfo
+                title="Popularity"
+                data={personDetails.popularity}
+                darkMode={darkMode}
+                noBorder={true}
+              />
+            </View>
+            <View style={styles.biographyContainer}>
+              <Text style={styles.biographyTitle}>Biography</Text>
+              <Text style={styles.biographyText}>
+                {personDetails.biography}
+              </Text>
+            </View>
           </View>
-          <View style={styles.personDetailedInfoContainer}>
-            <PersonDetailedInfo
-              title="Gender"
-              data="Male"
-              darkMode={darkMode}
-            />
-            <PersonDetailedInfo
-              title="Birthday"
-              data="26/07/1967"
-              darkMode={darkMode}
-            />
-            <PersonDetailedInfo
-              title="Height"
-              data="1.78 m"
-              darkMode={darkMode}
-            />
-            <PersonDetailedInfo
-              title="Popularity"
-              data="76"
-              darkMode={darkMode}
-              noBorder={true}
-            />
-          </View>
-          <View style={styles.biographyContainer}>
-            <Text style={styles.biographyTitle}>Biography</Text>
-            <Text style={styles.biographyText}>
-              Jason Statham (born July 26, 1967) is an English actor. He is
-              known for portraying characters in various action-thriller films
-              who are typically tough, hardboiled, gritty, or violent.
-            </Text>
-          </View>
-        </View>
+        )
       )}
       {/* Person details end */}
 
       {/*Person movies start*/}
-      <View style={styles.personMoviesContainer}>
-        <Movies
-          darkMode={darkMode}
-          Movies={personMovies}
-          width={width}
-          height={height}
-          title={person + "'s Movies"}
-          seeAllMovies={false}
-        />
-      </View>
+      {personMovies && personDetails && (
+        <View style={styles.personMoviesContainer}>
+          {
+            <Movies
+              darkMode={darkMode}
+              Movies={personMovies}
+              width={width}
+              height={height}
+              title={personDetails.name + "'s Movies"}
+              seeAllMovies={false}
+            />
+          }
+        </View>
+      )}
       {/*Person movies end*/}
     </ScrollView>
   );

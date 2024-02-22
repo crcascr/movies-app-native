@@ -27,6 +27,14 @@ const movieCreditsEndpoint = (movie_id) =>
 const similarMoviesEndpoint = (movie_id) =>
   `${baseUrl}/movie/${movie_id}/similar?api_key=${apiKey}`;
 
+//Person details
+const personDetailsEndpoint = (person_id) =>
+  `${baseUrl}/person/${person_id}?api_key=${apiKey}`;
+
+//Person movies
+const personMoviesEndpoint = (person_id) =>
+  `${baseUrl}/person/${person_id}/movie_credits?api_key=${apiKey}`;
+
 //API endpoints end
 
 //API call setup start
@@ -73,6 +81,14 @@ export const fetchMovieCredits = (movie_id) => {
 export const fetchSimilarMovies = (movie_id) => {
   return apiCall(similarMoviesEndpoint(movie_id));
 };
+
+export const fetchPersonDetails = (person_id) => {
+  return apiCall(personDetailsEndpoint(person_id));
+}
+
+export const fetchPersonMovies = (person_id) => {
+  return apiCall(personMoviesEndpoint(person_id));
+}
 
 //API calls end
 
