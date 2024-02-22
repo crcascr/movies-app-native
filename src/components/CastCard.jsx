@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getMoviePoster185 } from "../api/MovieDB";
+import { fallbackPersonImage, getMoviePoster185 } from "../api/MovieDB";
 
 function CastCard({ darkMode, person, navigation }) {
   const styles = StyleSheet.create({
@@ -48,7 +48,9 @@ function CastCard({ darkMode, person, navigation }) {
         <Image
           style={styles.personImage}
           //source={require("../assets/images/Jason-Statham.jpg")}
-          source={{uri:getMoviePoster185(person.profile_path)}}
+          source={{
+            uri: getMoviePoster185(person?.profile_path) || fallbackPersonImage,
+          }}
         />
       </View>
       <Text style={styles.personName}>

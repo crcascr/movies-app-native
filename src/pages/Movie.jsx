@@ -19,6 +19,7 @@ import Loading from "../components/Loading";
 import Cast from "../components/Cast";
 import Movies from "../components/Movies";
 import {
+  fallbackMoviePoster,
   fetchMovieCredits,
   fetchMovieDetails,
   fetchSimilarMovies,
@@ -174,7 +175,11 @@ function Movie() {
               <Image
                 style={styles.movieImage}
                 //source={require("../assets/images/beekeeper.jpg")}
-                source={{ uri: getMoviePoster500(movieDetails.poster_path) }}
+                source={{
+                  uri:
+                    getMoviePoster500(movieDetails?.poster_path) ||
+                    fallbackMoviePoster,
+                }}
               />
             )}
             <LinearGradient

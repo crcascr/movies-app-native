@@ -115,3 +115,8 @@ export const getMoviePoster185 = (path) =>
   path ? `https://image.tmdb.org/t/p/w185${path}` : null;
 
 //Get movie poster end
+
+export const fallbackMoviePoster =
+  "https://upload.wikimedia.org/wikipedia/commons/1/17/Computer_screen_icon_white.png";
+export const fallbackPersonImage =
+  "https://louisville.edu/enrollmentmanagement/images/person-icon/image";
