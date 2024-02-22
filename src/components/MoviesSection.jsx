@@ -15,21 +15,9 @@ var { width, height } = Dimensions.get("window");
 function MoviesSection({ darkMode }) {
   const [isLoading, setIsLoading] = useState(true);
 
-  const [trendingMovies, setTrendingMovies] = useState([
-    { number: 1, name: "Beekeeper" },
-    { number: 2, name: "Bob Marley: One Love" },
-    { number: 3, name: "The Boy and the Heron" },
-  ]);
-  const [upcomingMovies, setUpcomingMovies] = useState([
-    { number: 1, title: "Inside Out 2" },
-    { number: 2, title: "Deadpool & Wolverine" },
-    { number: 3, title: "Godzilla x Kong: The New Empire" },
-  ]);
-  const [topRatedMovies, setTopRatedMovies] = useState([
-    { number: 1, title: "Oppenheimer" },
-    { number: 2, title: "Bob Marley: One Love" },
-    { number: 3, title: "Barbie" },
-  ]);
+  const [trendingMovies, setTrendingMovies] = useState(null);
+  const [upcomingMovies, setUpcomingMovies] = useState(null);
+  const [topRatedMovies, setTopRatedMovies] = useState(null);
 
   useEffect(() => {
     getTrendingMovies();
@@ -69,7 +57,7 @@ function MoviesSection({ darkMode }) {
       ) : (
         <View>
           {/* Trending Movies Section start />*/}
-          {trendingMovies.length > 0 && (
+          {trendingMovies && (
             <TrendingMovies
               darkMode={darkMode}
               trendingMovies={trendingMovies}
@@ -80,7 +68,7 @@ function MoviesSection({ darkMode }) {
           {/* Trending Movies Section end />*/}
 
           {/* Upcoming Movies Section start />*/}
-          {upcomingMovies.length > 0 && (
+          {upcomingMovies && (
             <Movies
               darkMode={darkMode}
               Movies={upcomingMovies}
@@ -93,7 +81,7 @@ function MoviesSection({ darkMode }) {
           {/* Upcoming Movies Section end />*/}
 
           {/* Top Rated Movies Section start />*/}
-          {topRatedMovies.length > 0 && (
+          {topRatedMovies && (
             <Movies
               darkMode={darkMode}
               Movies={topRatedMovies}
