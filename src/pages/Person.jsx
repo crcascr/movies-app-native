@@ -17,6 +17,7 @@ import { Shadow } from "react-native-shadow-2";
 
 import PersonDetailedInfo from "../components/PersonDetailedInfo";
 import Movies from "../components/Movies";
+import Loading from "../components/Loading";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS === "ios";
@@ -29,6 +30,8 @@ function Person() {
   const navigation = useNavigation();
 
   const [favoritePerson, setFavoritePerson] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [personMovies, setPersonMovies] = useState([
     { number: 1, name: "The Transporter" },
@@ -114,8 +117,9 @@ function Person() {
       textAlign: "justify",
     },
     personMoviesContainer: {
-        marginHorizontal: 16,
-    }
+      marginHorizontal: 16,
+      display: isLoading ? "none" : "flex",
+    },
   });
 
   return (
@@ -146,54 +150,62 @@ function Person() {
       {/* Back and favorite buttons end */}
 
       {/* Person details start */}
-      <View>
-        <View style={styles.personBasicContainer}>
-          <Shadow
-            distance={20}
-            startColor={"#737373"}
-            endColor={"#73737300"}
-            offset={[0, 0]}
-          >
-            <View style={styles.personImageContainer}>
-              <Image
-                source={require("../assets/images/Jason-Statham.jpg")}
-                style={styles.personImage}
-              />
-            </View>
-          </Shadow>
-        </View>
+      {isLoading ? (
+        <Loading />
+      ) : (
         <View>
-          <Text style={styles.personName}>{person}</Text>
-          <Text style={styles.personLocation}>London, UK</Text>
+          <View style={styles.personBasicContainer}>
+            <Shadow
+              distance={20}
+              startColor={"#737373"}
+              endColor={"#73737300"}
+              offset={[0, 0]}
+            >
+              <View style={styles.personImageContainer}>
+                <Image
+                  source={require("../assets/images/Jason-Statham.jpg")}
+                  style={styles.personImage}
+                />
+              </View>
+            </Shadow>
+          </View>
+          <View>
+            <Text style={styles.personName}>{person}</Text>
+            <Text style={styles.personLocation}>London, UK</Text>
+          </View>
+          <View style={styles.personDetailedInfoContainer}>
+            <PersonDetailedInfo
+              title="Gender"
+              data="Male"
+              darkMode={darkMode}
+            />
+            <PersonDetailedInfo
+              title="Birthday"
+              data="26/07/1967"
+              darkMode={darkMode}
+            />
+            <PersonDetailedInfo
+              title="Height"
+              data="1.78 m"
+              darkMode={darkMode}
+            />
+            <PersonDetailedInfo
+              title="Popularity"
+              data="76"
+              darkMode={darkMode}
+              noBorder={true}
+            />
+          </View>
+          <View style={styles.biographyContainer}>
+            <Text style={styles.biographyTitle}>Biography</Text>
+            <Text style={styles.biographyText}>
+              Jason Statham (born July 26, 1967) is an English actor. He is
+              known for portraying characters in various action-thriller films
+              who are typically tough, hardboiled, gritty, or violent.
+            </Text>
+          </View>
         </View>
-        <View style={styles.personDetailedInfoContainer}>
-          <PersonDetailedInfo title="Gender" data="Male" darkMode={darkMode} />
-          <PersonDetailedInfo
-            title="Birthday"
-            data="26/07/1967"
-            darkMode={darkMode}
-          />
-          <PersonDetailedInfo
-            title="Height"
-            data="1.78 m"
-            darkMode={darkMode}
-          />
-          <PersonDetailedInfo
-            title="Popularity"
-            data="76"
-            darkMode={darkMode}
-            noBorder={true}
-          />
-        </View>
-        <View style={styles.biographyContainer}>
-          <Text style={styles.biographyTitle}>Biography</Text>
-          <Text style={styles.biographyText}>
-            Jason Statham (born July 26, 1967) is an English actor. He is known
-            for portraying characters in various action-thriller films who are
-            typically tough, hardboiled, gritty, or violent.
-          </Text>
-        </View>
-      </View>
+      )}
       {/* Person details end */}
 
       {/*Person movies start*/}

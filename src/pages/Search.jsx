@@ -13,6 +13,7 @@ import {
 import { ChevronLeftIcon, XMarkIcon } from "react-native-heroicons/outline";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ResultCard from "../components/ResultCard";
+import Loading from "../components/Loading";
 
 var { width, height } = Dimensions.get("window");
 
@@ -23,6 +24,8 @@ function Search() {
   const navigation = useNavigation();
 
   const [searchMovie, setSearchMovie] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [searchResults, setSearchResults] = useState([
     { number: 1, name: "John Wick: Chapter 4" },
@@ -138,7 +141,9 @@ function Search() {
         </View>
       </View>
       {/* Search Results */}
-      {searchResults.length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : searchResults.length > 0 ? (
         <ScrollView
           style={styles.searchResultsContainer}
           showsVerticalScrollIndicator={false}

@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 
 import SearchBar from "../components/SearchBar";
 import MoviesSection from "../components/MoviesSection";
+import Loading from "../components/Loading";
 
 function Home() {
   const [darkMode, setDarkMode] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const date = new Date();
@@ -30,7 +33,7 @@ function Home() {
       {/*SearchBar and Logo Section end />*/}
 
       {/*Movies Section start />*/}
-      <MoviesSection darkMode={darkMode} />
+      {isLoading ? <Loading /> : <MoviesSection darkMode={darkMode} />}
       {/*Movies Section end />*/}
     </View>
   );

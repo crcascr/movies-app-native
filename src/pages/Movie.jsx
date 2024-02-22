@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ChevronLeftIcon, HeartIcon } from "react-native-heroicons/outline";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { LinearGradient } from "expo-linear-gradient";
+import Loading from "../components/Loading";
 
 import Cast from "../components/Cast";
 import Movies from "../components/Movies";
@@ -29,6 +30,8 @@ function Movie() {
   const navigation = useNavigation();
 
   const [favorite, setFavorite] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [cast, setCast] = useState([
     { name: "Jason Statham", character: "Adam Clay" },
@@ -82,6 +85,9 @@ function Movie() {
     movieDetailsContainer: {
       marginTop: -(height * 0.04),
       columnGap: 12,
+    },
+    movieInfoContainer: {
+      display: isLoading ? "none" : "flex",
     },
     movieTitle: {
       textAlign: "center",
@@ -139,51 +145,57 @@ function Movie() {
             )}
           </TouchableOpacity>
         </SafeAreaView>
-        <View>
-          <Image
-            style={styles.movieImage}
-            source={require("../assets/images/beekeeper.jpg")}
-          />
-          <LinearGradient
-            colors={[
-              "transparent",
-              darkMode ? "#26262699" : "#26262699",
-              darkMode ? "#262626" : "#94a3b8",
-            ]}
-            style={{
-              width: width,
-              height: height * 0.4,
-              bottom: 0,
-              position: "absolute",
-            }}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-          />
-        </View>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <View>
+            <Image
+              style={styles.movieImage}
+              source={require("../assets/images/beekeeper.jpg")}
+            />
+            <LinearGradient
+              colors={[
+                "transparent",
+                darkMode ? "#26262699" : "#26262699",
+                darkMode ? "#262626" : "#94a3b8",
+              ]}
+              style={{
+                width: width,
+                height: height * 0.4,
+                bottom: 0,
+                position: "absolute",
+              }}
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 1 }}
+            />
+          </View>
+        )}
       </View>
-      <View style={styles.movieDetailsContainer}>
-        <Text style={styles.movieTitle}>{movie.name}</Text>
-        <Text style={styles.movieGeneralInfo}>Released • 2024 • 105 min</Text>
-        <View style={styles.movieGenres}>
-          <Text style={styles.movieGeneralInfo}>Action • </Text>
-          <Text style={styles.movieGeneralInfo}>Suspense • </Text>
-          <Text style={styles.movieGeneralInfo}>Drama</Text>
+      <View style={styles.movieInfoContainer}>
+        <View style={styles.movieDetailsContainer}>
+          <Text style={styles.movieTitle}>{movie.name}</Text>
+          <Text style={styles.movieGeneralInfo}>Released • 2024 • 105 min</Text>
+          <View style={styles.movieGenres}>
+            <Text style={styles.movieGeneralInfo}>Action • </Text>
+            <Text style={styles.movieGeneralInfo}>Suspense • </Text>
+            <Text style={styles.movieGeneralInfo}>Drama</Text>
+          </View>
+          <Text style={styles.movieDescription}>
+            One man’s campaign for vengeance takes on national stakes after he
+            is revealed to be a former operative of a powerful and clandestine
+            organization known as Beekeepers.
+          </Text>
         </View>
-        <Text style={styles.movieDescription}>
-          One man’s campaign for vengeance takes on national stakes after he is
-          revealed to be a former operative of a powerful and clandestine
-          organization known as Beekeepers.
-        </Text>
+        <Cast darkMode={darkMode} cast={cast} navigation={navigation} />
+        <Movies
+          darkMode={darkMode}
+          Movies={similarMovies}
+          width={width}
+          height={height}
+          title={"Similar Movies"}
+          seeAllMovies={false}
+        />
       </View>
-      <Cast darkMode={darkMode} cast={cast} navigation={navigation} />
-      <Movies
-        darkMode={darkMode}
-        Movies={similarMovies}
-        width={width}
-        height={height}
-        title={"Similar Movies"}
-        seeAllMovies={false}
-      />
     </ScrollView>
   );
 }
