@@ -4,7 +4,11 @@ import { ScrollView, Text, Dimensions, View } from "react-native";
 import TrendingMovies from "./TrendingMovies";
 import Movies from "./Movies";
 import Loading from "./Loading";
-import { fetchTrendingMovies, fetchUpcomingMovies } from "../api/MovieDB";
+import {
+  fetchTopRatedMovies,
+  fetchTrendingMovies,
+  fetchUpcomingMovies,
+} from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 
@@ -30,6 +34,7 @@ function MoviesSection({ darkMode }) {
   useEffect(() => {
     getTrendingMovies();
     getUpcomingMovies();
+    getTopRatedMovies();
   }, []);
 
   async function getTrendingMovies() {
@@ -43,7 +48,14 @@ function MoviesSection({ darkMode }) {
   async function getUpcomingMovies() {
     const data = await fetchUpcomingMovies();
     if (data && data.results) {
-      setUpcomingMovies(data.results);      
+      setUpcomingMovies(data.results);
+    }
+  }
+
+  async function getTopRatedMovies() {
+    const data = await fetchTopRatedMovies();
+    if (data && data.results) {
+      setTopRatedMovies(data.results);
     }
   }
 
@@ -81,14 +93,16 @@ function MoviesSection({ darkMode }) {
           {/* Upcoming Movies Section end />*/}
 
           {/* Top Rated Movies Section start />*/}
-          {/*<Movies
-            darkMode={darkMode}
-            Movies={topRatedMovies}
-            width={width}
-            height={height}
-            title={"Top Rated"}
-            seeAllMovies={true}
-          />}
+          {topRatedMovies.length > 0 && (
+            <Movies
+              darkMode={darkMode}
+              Movies={topRatedMovies}
+              width={width}
+              height={height}
+              title={"Top Rated"}
+              seeAllMovies={true}
+            />
+          )}
           {/* Top Rated Movies Section end />*/}
         </View>
       )}
