@@ -51,3 +51,17 @@ export const fetchTopRatedMovies = () => {
 };
 
 //API calls end
+
+//Get movie poster start
+
+// Width 500px
+export const getMoviePoster500 = (path) =>
+  path ? `https://image.tmdb.org/t/p/w500${path}` : null;
+
+//Width 342px
+export const getMoviePoster342 = (path) =>
+  path ? `https://image.tmdb.org/t/p/w342${path}` : null;
+
+//Width 185px
+export const getMoviePoster185 = (path) =>
+  path ? `https://image.tmdb.org/t/p/w185${path}` : null;

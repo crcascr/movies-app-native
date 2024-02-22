@@ -4,6 +4,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import { getMoviePoster500 } from "../api/MovieDB";
 
 function TrendingMovieCard({
   movie,
@@ -22,7 +23,8 @@ function TrendingMovieCard({
   return (
     <TouchableWithoutFeedback onPress={() => handleMoviePress(movie, darkMode)}>
       <Image
-        source={require("../assets/images/beekeeper.jpg")}
+        //source={require("../assets/images/beekeeper.jpg")}
+        source={{uri:getMoviePoster500(movie.poster_path)}}
         style={styles.moviePosterImage}
       />
     </TouchableWithoutFeedback>
