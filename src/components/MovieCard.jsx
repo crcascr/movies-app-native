@@ -7,6 +7,7 @@ import {
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { getMoviePoster185 } from "../api/MovieDB";
 
 function MovieCard({ darkMode, Movie, index, width, height }) {
   const styles = StyleSheet.create({
@@ -36,13 +37,14 @@ function MovieCard({ darkMode, Movie, index, width, height }) {
     >
       <View style={styles.movieCard}>
         <Image
-          source={require("../assets/images/InsideOut2.jpg")}
+          //source={require("../assets/images/InsideOut2.jpg")}
+          source={{uri:getMoviePoster185(Movie.poster_path)}}
           style={styles.movieImage}
         />
         <Text style={styles.movieTitle}>
-          {Movie.name.length > 14
-            ? Movie.name.slice(0, 14) + "..."
-            : Movie.name}
+          {Movie.title.length > 14
+            ? Movie.title.slice(0, 14) + "..."
+            : Movie.title}
         </Text>
       </View>
     </TouchableWithoutFeedback>

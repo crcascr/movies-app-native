@@ -4,7 +4,7 @@ import { ScrollView, Text, Dimensions, View } from "react-native";
 import TrendingMovies from "./TrendingMovies";
 import Movies from "./Movies";
 import Loading from "./Loading";
-import { fetchTrendingMovies } from "../api/MovieDB";
+import { fetchTrendingMovies, fetchUpcomingMovies } from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 
@@ -17,26 +17,33 @@ function MoviesSection({ darkMode }) {
     { number: 3, name: "The Boy and the Heron" },
   ]);
   const [upcomingMovies, setUpcomingMovies] = useState([
-    { number: 1, name: "Inside Out 2" },
-    { number: 2, name: "Deadpool & Wolverine" },
-    { number: 3, name: "Godzilla x Kong: The New Empire" },
+    { number: 1, title: "Inside Out 2" },
+    { number: 2, title: "Deadpool & Wolverine" },
+    { number: 3, title: "Godzilla x Kong: The New Empire" },
   ]);
   const [topRatedMovies, setTopRatedMovies] = useState([
-    { number: 1, name: "Oppenheimer" },
-    { number: 2, name: "Bob Marley: One Love" },
-    { number: 3, name: "Barbie" },
+    { number: 1, title: "Oppenheimer" },
+    { number: 2, title: "Bob Marley: One Love" },
+    { number: 3, title: "Barbie" },
   ]);
 
   useEffect(() => {
-    //getTrendingMovies()
+    getTrendingMovies();
+    getUpcomingMovies();
   }, []);
 
   async function getTrendingMovies() {
     const data = await fetchTrendingMovies();
-    console.log("Data:", data);
     if (data && data.results) {
       setTrendingMovies(data.results);
       setIsLoading(false);
+    }
+  }
+
+  async function getUpcomingMovies() {
+    const data = await fetchUpcomingMovies();
+    if (data && data.results) {
+      setUpcomingMovies(data.results);      
     }
   }
 
@@ -61,25 +68,27 @@ function MoviesSection({ darkMode }) {
           {/* Trending Movies Section end />*/}
 
           {/* Upcoming Movies Section start />*/}
-          <Movies
-            darkMode={darkMode}
-            Movies={upcomingMovies}
-            width={width}
-            height={height}
-            title={"Upcoming"}
-            seeAllMovies={true}
-          />
+          {upcomingMovies.length > 0 && (
+            <Movies
+              darkMode={darkMode}
+              Movies={upcomingMovies}
+              width={width}
+              height={height}
+              title={"Upcoming"}
+              seeAllMovies={true}
+            />
+          )}
           {/* Upcoming Movies Section end />*/}
 
           {/* Top Rated Movies Section start />*/}
-          <Movies
+          {/*<Movies
             darkMode={darkMode}
             Movies={topRatedMovies}
             width={width}
             height={height}
             title={"Top Rated"}
             seeAllMovies={true}
-          />
+          />}
           {/* Top Rated Movies Section end />*/}
         </View>
       )}
