@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, Dimensions, View } from "react-native";
+import { ScrollView, Dimensions, View } from "react-native";
 
 import TrendingMovies from "./TrendingMovies";
 import Movies from "./Movies";

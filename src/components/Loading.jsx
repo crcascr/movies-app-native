@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 
 const { width, height } = Dimensions.get("window");
