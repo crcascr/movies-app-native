@@ -35,6 +35,10 @@ const personDetailsEndpoint = (person_id) =>
 const personMoviesEndpoint = (person_id) =>
   `${baseUrl}/person/${person_id}/movie_credits?api_key=${apiKey}`;
 
+//Movie search
+const movieSearchEndpoint = (query) =>
+  `${baseUrl}/search/movie?api_key=${apiKey}&query=${query}&include_adult=false&language=en-US&page=1`;
+
 //API endpoints end
 
 //API call setup start
@@ -88,6 +92,10 @@ export const fetchPersonDetails = (person_id) => {
 
 export const fetchPersonMovies = (person_id) => {
   return apiCall(personMoviesEndpoint(person_id));
+}
+
+export const fetchMovieSearch = (query) => {
+  return apiCall(movieSearchEndpoint(query));
 }
 
 //API calls end

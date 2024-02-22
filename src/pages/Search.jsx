@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -14,6 +14,7 @@ import { ChevronLeftIcon, XMarkIcon } from "react-native-heroicons/outline";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ResultCard from "../components/ResultCard";
 import Loading from "../components/Loading";
+import { fetchMovieSearch } from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 
@@ -27,16 +28,21 @@ function Search() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [searchResults, setSearchResults] = useState([
-    { number: 1, name: "John Wick: Chapter 4" },
-    { number: 2, name: "Lift" },
-    { number: 3, name: "The Family Plan" },
-    { number: 4, name: "The Marvels" },
-    { number: 5, name: "Meg 2: The Trench" },
-    { number: 6, name: "Badland Hunters" },
-    { number: 7, name: "Upgraded" },
-    { number: 8, name: "Transformers: Rise of the Beasts" },
-  ]);
+  const [searchResults, setSearchResults] = useState(null);
+
+  useEffect(() => {
+    setIsLoading(true);
+    //Call to the API
+    getSearchResults(searchMovie);
+  }, [searchMovie]);
+
+  async function getSearchResults(searchMovie) {
+    const data = await fetchMovieSearch(searchMovie);
+    if (data && data.results) {
+      setSearchResults(data.results);
+      setIsLoading(false);
+    }
+  }
 
   const styles = StyleSheet.create({
     mainSearch: {
@@ -143,7 +149,7 @@ function Search() {
       {/* Search Results */}
       {isLoading ? (
         <Loading />
-      ) : searchResults.length > 0 ? (
+      ) : searchResults && searchResults.length > 0 ? (
         <ScrollView
           style={styles.searchResultsContainer}
           showsVerticalScrollIndicator={false}
@@ -166,13 +172,16 @@ function Search() {
           </View>
         </ScrollView>
       ) : (
-        <View style={styles.noResultsContainer}>
-          <Image
-            source={require("../assets/images/noMovies.png")}
-            style={styles.noResultsImage}
-          />
-          <Text style={styles.noResultsText}>No movies found 😓</Text>
-        </View>
+        searchMovie !== "" &&
+        !isLoading && (
+          <View style={styles.noResultsContainer}>
+            <Image
+              source={require("../assets/images/noMovies.png")}
+              style={styles.noResultsImage}
+            />
+            <Text style={styles.noResultsText}>No movies found 😓</Text>
+          </View>
+        )
       )}
     </SafeAreaView>
   );
