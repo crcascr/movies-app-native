@@ -15,6 +15,18 @@ const upcomingMoviesEndpoint = `${baseUrl}/movie/upcoming?api_key=${apiKey}`;
 //Top rated movies
 const topRatedMoviesEndpoint = `${baseUrl}/movie/top_rated?api_key=${apiKey}`;
 
+//Movie details
+const movieDetailsEndpoint = (movie_id) =>
+  `${baseUrl}/movie/${movie_id}?api_key=${apiKey}`;
+
+//Movie credits
+const movieCreditsEndpoint = (movie_id) =>
+  `${baseUrl}/movie/${movie_id}/credits?api_key=${apiKey}`;
+
+//Similar movies
+const similarMoviesEndpoint = (movie_id) =>
+  `${baseUrl}/movie/${movie_id}/similar?api_key=${apiKey}`;
+
 //API endpoints end
 
 //API call setup start
@@ -50,6 +62,18 @@ export const fetchTopRatedMovies = () => {
   return apiCall(topRatedMoviesEndpoint);
 };
 
+export const fetchMovieDetails = (movie_id) => {
+  return apiCall(movieDetailsEndpoint(movie_id));
+};
+
+export const fetchMovieCredits = (movie_id) => {
+  return apiCall(movieCreditsEndpoint(movie_id));
+};
+
+export const fetchSimilarMovies = (movie_id) => {
+  return apiCall(similarMoviesEndpoint(movie_id));
+};
+
 //API calls end
 
 //Get movie poster start
@@ -67,10 +91,3 @@ export const getMoviePoster185 = (path) =>
   path ? `https://image.tmdb.org/t/p/w185${path}` : null;
 
 //Get movie poster end
-
-//Get fallback images start
-
-export const fallbackMoviePoster =
-  "https://upload.wikimedia.org/wikipedia/commons/1/17/Computer_screen_icon_white.png";
-export const fallbackPersonImage =
-  "https://banner2.cleanpng.com/20180701/yig/kisspng-computer-icons-silhouette-my-account-icon-5b388d48343f50.355577991530432840214.jpg";

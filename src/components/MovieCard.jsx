@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { fallbackMoviePoster, getMoviePoster185 } from "../api/MovieDB";
+import { getMoviePoster185 } from "../api/MovieDB";
 
 function MovieCard({ darkMode, Movie, index, width, height }) {
   const styles = StyleSheet.create({
@@ -32,14 +32,14 @@ function MovieCard({ darkMode, Movie, index, width, height }) {
     <TouchableWithoutFeedback
       key={index}
       onPress={() =>
-        navigation.push("Movie", { movie: Movie, darkMode: darkMode })
+        navigation.push("Movie", { movie: Movie.id, darkMode: darkMode })
       }
     >
       <View style={styles.movieCard}>
         <Image
           //source={require("../assets/images/InsideOut2.jpg")}
           source={{
-            uri: getMoviePoster185(Movie.poster_path) || fallbackMoviePoster,
+            uri: getMoviePoster185(Movie.poster_path) ,
           }}
           style={styles.movieImage}
         />

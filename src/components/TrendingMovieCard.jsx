@@ -21,7 +21,7 @@ function TrendingMovieCard({
     },
   });
   return (
-    <TouchableWithoutFeedback onPress={() => handleMoviePress(movie, darkMode)}>
+    <TouchableWithoutFeedback onPress={() => handleMoviePress(movie.id, darkMode)}>
       <Image
         //source={require("../assets/images/beekeeper.jpg")}
         source={{uri:getMoviePoster500(movie.poster_path)}}

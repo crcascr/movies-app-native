@@ -18,6 +18,12 @@ import Loading from "../components/Loading";
 
 import Cast from "../components/Cast";
 import Movies from "../components/Movies";
+import {
+  fetchMovieCredits,
+  fetchMovieDetails,
+  fetchSimilarMovies,
+  getMoviePoster500,
+} from "../api/MovieDB";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS === "ios";
@@ -27,25 +33,13 @@ function Movie() {
   const { movie } = params;
   const { darkMode } = params;
 
-  console.log("Movie data", movie);
-
   const navigation = useNavigation();
 
   const [favorite, setFavorite] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [cast, setCast] = useState([
-    { name: "Jason Statham", character: "Adam Clay" },
-    { name: "Emmy Raver-Lampman", character: "Agent Verona Parker" },
-    { name: "Bobby Naderi", character: "Agent Matt Wiley" },
-    { name: "Josh Hutcherson", character: "Derek Danforth" },
-    { name: "Jeremy Irons", character: "Wallace Westwyld" },
-    { name: "Taylor James", character: "Lazarus" },
-    { name: "Phylicia Rashād", character: "Eloise Parker" },
-    { name: "Jemma Redgrave", character: "President Jessica Danforth" },
-    { name: "Minnie Driver", character: "Director Janet Hayworth" },
-  ]);
+  const [cast, setCast] = useState(null);
 
   const [similarMovies, setSimilarMovies] = useState([
     { number: 1, title: "The Transporter" },
@@ -53,9 +47,37 @@ function Movie() {
     { number: 3, title: "V For Vendetta" },
   ]);
 
+  const [movieDetails, setMovieDetails] = useState(null);
+
   useEffect(() => {
+    setIsLoading(true);
     //Call to the API
+    getMovieDetails(movie);
+    getMovieCredits(movie);
+    getSimilarMovies(movie);
   }, [movie]);
+
+  async function getMovieDetails(movieId) {
+    const data = await fetchMovieDetails(movieId);
+    if (data) {
+      setMovieDetails(data);
+      setIsLoading(false);
+    }
+  }
+
+  async function getMovieCredits(movieId) {
+    const data = await fetchMovieCredits(movieId);
+    if (data) {
+      setCast(data.cast);
+    }
+  }
+
+  async function getSimilarMovies(movieId) {
+    const data = await fetchSimilarMovies(movieId);
+    if (data) {
+      setSimilarMovies(data.results);
+    }
+  }
 
   const styles = StyleSheet.create({
     movieContainer: {
@@ -112,6 +134,7 @@ function Movie() {
       marginHorizontal: 16,
       rowGap: 8,
       marginTop: 8,
+      flexWrap: "wrap",
     },
     movieDescription: {
       color: darkMode ? "#a3a3a3" : "#323232",
@@ -151,10 +174,13 @@ function Movie() {
           <Loading />
         ) : (
           <View>
-            <Image
-              style={styles.movieImage}
-              source={require("../assets/images/beekeeper.jpg")}
-            />
+            {movieDetails && (
+              <Image
+                style={styles.movieImage}
+                //source={require("../assets/images/beekeeper.jpg")}
+                source={{ uri: getMoviePoster500(movieDetails.poster_path) }}
+              />
+            )}
             <LinearGradient
               colors={[
                 "transparent",
@@ -173,29 +199,39 @@ function Movie() {
           </View>
         )}
       </View>
-      <View style={styles.movieInfoContainer}>
-        <View style={styles.movieDetailsContainer}>
-          <Text style={styles.movieTitle}>{movie.title}</Text>
-          <Text style={styles.movieGeneralInfo}>
-            Released • {movie.release_date.split("-")[0]} • 105 min
-          </Text>
-          <View style={styles.movieGenres}>
-            <Text style={styles.movieGeneralInfo}>Action • </Text>
-            <Text style={styles.movieGeneralInfo}>Suspense • </Text>
-            <Text style={styles.movieGeneralInfo}>Drama</Text>
+      {movieDetails && (
+        <View style={styles.movieInfoContainer}>
+          <View style={styles.movieDetailsContainer}>
+            <Text style={styles.movieTitle}>{movieDetails.title}</Text>
+            <Text style={styles.movieGeneralInfo}>
+              {movieDetails.status} • {movieDetails.release_date.split("-")[0]}{" "}
+              • {movieDetails.runtime} min
+            </Text>
+            <View style={styles.movieGenres}>
+              {movieDetails.genres.map((genre, index) => (
+                <Text key={index} style={styles.movieGeneralInfo}>
+                  {genre.name}{" "}
+                  {index !== movieDetails.genres.length - 1 ? "• " : ""}
+                </Text>
+              ))}
+            </View>
+            <Text style={styles.movieDescription}>{movieDetails.overview}</Text>
           </View>
-          <Text style={styles.movieDescription}>{movie.overview}</Text>
+          {cast && (
+            <Cast darkMode={darkMode} cast={cast} navigation={navigation} />
+          )}
+          {similarMovies && (
+            <Movies
+              darkMode={darkMode}
+              Movies={similarMovies}
+              width={width}
+              height={height}
+              title={"Similar Movies"}
+              seeAllMovies={false}
+            />
+          )}
         </View>
-        <Cast darkMode={darkMode} cast={cast} navigation={navigation} />
-        <Movies
-          darkMode={darkMode}
-          Movies={similarMovies}
-          width={width}
-          height={height}
-          title={"Similar Movies"}
-          seeAllMovies={false}
-        />
-      </View>
+      )}
     </ScrollView>
   );
 }
