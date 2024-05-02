@@ -22,10 +22,22 @@ A native React Native app that utilizes the [MovieDB](https://www.themoviedb.org
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/crcascr/movies-app-native.git`
-2. Navigate to the cloned directory: `cd movies-app-native`
-3. Install dependencies: `npm install`
-4. Start the app: `npx expo start`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/crcascr/movies-app-native.git
+   ```
+2. Navigate to the cloned directory:
+   ```bash
+   cd movies-app-native
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the app:
+   ```bash
+   npx expo start
+   ```
 5. Follow the instructions in the terminal to launch the app on your device or emulator.
 6. You can also run the app in your device using the Expo Go app, you can download it from the [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent) or [App Store](https://apps.apple.com/mx/app/expo-go/id982107779).
 
